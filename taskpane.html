@@ -1,32 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
 <head>
-    <meta charset="UTF-8" />
-    <title>Nahlásit phishing</title>
-    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-    <style>
-        body { font-family: sans-serif; padding: 20px; text-align: center; }
-        button { background-color: #d9534f; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 4px; cursor: pointer; }
-        button:hover { background-color: #c9302c; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Nahlásit podezřelý e-mail na IT</title>
+  <style>
+    :root { color-scheme: light dark; font-family: "Segoe UI", Arial, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 22px 18px; background: #f5f6f8; color: #20242c; }
+    main { max-width: 440px; margin: auto; }
+    header { display: flex; gap: 14px; align-items: center; margin-bottom: 22px; }
+    header img { width: 64px; height: 64px; object-fit: contain; }
+    .brand { font-size: 12px; font-weight: 700; letter-spacing: .1em; color: #606775; }
+    h1 { margin: 5px 0 0; font-size: 21px; line-height: 1.25; }
+    p { font-size: 14px; line-height: 1.5; }
+    .message { background: #fff; border: 1px solid #dce0e6; padding: 14px; border-radius: 8px; margin: 18px 0; }
+    .caption { font-size: 12px; color: #606775; }
+    #message-subject, #message-sender { overflow-wrap: anywhere; }
+    #message-subject { font-size: 15px; font-weight: 600; margin: 5px 0 8px; }
+    #message-sender { font-size: 13px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 7px; }
+    textarea { width: 100%; min-height: 76px; resize: vertical; border: 1px solid #aeb5c0; border-radius: 5px; padding: 9px; font: inherit; font-size: 14px; background: #fff; color: #20242c; }
+    button { width: 100%; padding: 12px; border: 0; border-radius: 5px; margin-top: 14px; background: #ad2437; color: white; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
+    button:hover:enabled { background: #8f1e2d; }
+    button:disabled { opacity: .6; cursor: default; }
+    button:focus-visible, textarea:focus-visible { outline: 3px solid #1967c9; outline-offset: 2px; }
+    #status { white-space: pre-wrap; overflow-wrap: anywhere; border-radius: 5px; padding: 11px; font-size: 13px; line-height: 1.5; background: #e8edf4; }
+    #status[data-kind="success"] { background: #e1f1e5; color: #174a27; }
+    #status[data-kind="error"] { background: #fce8e8; color: #79232d; }
+    .recipients { font-size: 12px; color: #606775; overflow-wrap: anywhere; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #202124; color: #eef0f3; }
+      .message, textarea { background: #292c32; color: #eef0f3; border-color: #555d69; }
+      .brand, .caption, .recipients { color: #b7bdc8; }
+      #status { background: #343d4a; }
+    }
+  </style>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script src="vendor/msal-browser.min.js"></script>
+  <script src="config.js"></script>
+  <script src="taskpane.js" defer></script>
 </head>
 <body>
-    <h3>Nahlásit podezřelý e-mail</h3>
-    <p>Kliknutím odešlete tento e-mail bezpečnostnímu týmu IT.</p>
-    <button onclick="reportEmail()">Nahlásit IT</button>
-
-    <script>
-        Office.onReady((info) => {
-            if (info.host === Office.HostType.Outlook) {
-                console.log("Outlook add-in ready.");
-            }
-        });
-
-        function reportEmail() {
-            var item = Office.context.mailbox.item;
-            // Zde se odesílá předmět a upozornění na IT adresu
-            alert("E-mail byl úspěšně nahlášen na it@vase-firma.cz.");
-        }
-    </script>
+  <main>
+    <header>
+      <img src="assets/icon-128.png" alt="IT">
+      <div><div class="brand">BRANO IT</div><h1>Nahlásit podezřelý e-mail</h1></div>
+    </header>
+    <p>Vybraný e-mail přepošleme IT oddělení k prověření.</p>
+    <section class="message" aria-label="Vybraný e-mail">
+      <div class="caption">PŘEDMĚT</div>
+      <div id="message-subject">Načítání…</div>
+      <div class="caption">ODESÍLATEL</div>
+      <div id="message-sender">—</div>
+    </section>
+    <label for="note">Poznámka pro IT (nepovinná)</label>
+    <textarea id="note" maxlength="2000" placeholder="Například: Klikl/a jsem na odkaz."></textarea>
+    <button id="report-button" type="button" disabled>Nahlásit IT</button>
+    <p id="status" role="status" aria-live="polite" aria-atomic="true" data-kind="info">Načítání doplňku…</p>
+    <p class="recipients" id="recipients"></p>
+    <noscript>Pro fungování doplňku je nutné povolit JavaScript.</noscript>
+  </main>
 </body>
 </html>
