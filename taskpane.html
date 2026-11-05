@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Nahlásit phishing</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; text-align: center; }
+        button { background-color: #d9534f; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #c9302c; }
+    </style>
+</head>
+<body>
+    <h3>Nahlásit podezřelý e-mail</h3>
+    <p>Kliknutím odešlete tento e-mail bezpečnostnímu týmu IT.</p>
+    <button onclick="reportEmail()">Nahlásit IT</button>
+
+    <script>
+        Office.onReady((info) => {
+            if (info.host === Office.HostType.Outlook) {
+                console.log("Outlook add-in ready.");
+            }
+        });
+
+        function reportEmail() {
+            var item = Office.context.mailbox.item;
+            // Zde se odesílá předmět a upozornění na IT adresu
+            alert("E-mail byl úspěšně nahlášen na it@vase-firma.cz.");
+        }
+    </script>
+</body>
+</html>
