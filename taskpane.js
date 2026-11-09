@@ -10,7 +10,7 @@
   let selected;
   let busy = false;
   let finished = false;
-
+ 
   function setStatus(message, kind = "info") {
     // Zprávy i chyby vkládáme jako text. Obsah podezřelého e-mailu nevykreslujeme.
     status.textContent = message;
