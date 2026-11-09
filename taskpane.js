@@ -22,7 +22,7 @@
     if (!config || !guid.test(config.clientId) || !guid.test(config.tenantId)) {
       throw new Error("Doplněk ještě není nakonfigurován. IT musí do config.js doplnit Application (client) ID a Directory (tenant) ID.");
     }
-    if (!Array.isArray(config.recipients) || config.recipients.length !== 2 ||
+    if (!Array.isArray(config.recipients) || config.recipients.length < 1 ||
         config.recipients.some(address => !/^[^\s@]+@brano\.eu$/i.test(address))) {
       throw new Error("Není správně nastavena adresa příjemců hlášení. Kontaktujte IT.");
     }
