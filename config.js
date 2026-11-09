@@ -10,6 +10,7 @@ window.BRANO_REPORT_CONFIG = Object.freeze({
     "jaromir.deutsch@brano.eu",
     "jakub.berka@brano.eu",
     "ivo.schwarz@brano.eu",
-    "ondrej.hrbac@brano.eu"
+    "ondrej.hrbac@brano.eu",
+    "support@brano.eu"
   ])
 });
